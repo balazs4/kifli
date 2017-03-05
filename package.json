@@ -1,0 +1,20 @@
+{
+  "name": "mano",
+  "private": true,
+  "version": "0.0.1",
+  "description": "nano-service for mqtt protocoll (nano+mqtt=mano)",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "test": "ava --timeout 3000",
+    "test:srv": "mosca -v"
+  },
+  "dependencies": {
+    "debug": "^2.6.1",
+    "mqtt": "^2.4.0"
+  },
+  "devDependencies": {
+    "ava": "^0.18.2",
+    "mosca": "^2.2.0"
+  }
+}
