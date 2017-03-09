@@ -5,18 +5,18 @@ const { connect } = require('mqtt');
 module.exports = (broker, onMessage, onClose) => {
   const client = connect(broker);
   client.on('offline', () => {
-    error(`${broker} seems to be offline`);
+    log(`${broker} seems to be offline`);
   });
   client.on('error', err => {
     error(err);
     throw err;
   });
   client.on('close', () => {
-    log(`Disconnected from ${broker}`);
+    log(`disconnected from ${broker}`);
     onClose();
   });
   client.on('connect', () => {
-    log(`Connected to ${broker}...`);
+    log(`connected to ${broker}...`);
     const publish = (topic, msg) => {
       client.publish(topic, JSON.stringify(msg));
     };
@@ -28,6 +28,6 @@ module.exports = (broker, onMessage, onClose) => {
     };
     const end = client.end.bind(client);
     onMessage({ publish, subscribe, end });
-    log('Listening...');
+    log('ready');
   });
 };
