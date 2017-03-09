@@ -10,11 +10,11 @@
     "test:srv": "mosca -v"
   },
   "dependencies": {
+    "args": "^2.3.0",
     "debug": "^2.6.1",
     "mqtt": "^2.4.0"
   },
   "devDependencies": {
-    "ava": "^0.18.2",
-    "mosca": "^2.2.0"
+    "ava": "^0.18.2"
   }
 }
