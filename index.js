@@ -2,17 +2,18 @@ const log = require('debug')('mano');
 const error = require('debug')('mano:err');
 const { connect } = require('mqtt');
 
-module.exports = (broker, onMessage, onClose) => {
+module.exports = (broker, onConnect, onClose) => {
   const client = connect(broker);
   client.on('offline', () => {
     log(`disconnected from ${broker}`);
+    client.removeAllListeners('message');
   });
   client.on('error', err => {
     error(err);
-    throw err;
   });
   client.on('close', () => {
     log(`${broker} is offline?`);
+    client.removeAllListeners('message');
   });
   client.on('connect', () => {
     log(`connected to ${broker}...`);
@@ -29,7 +30,7 @@ module.exports = (broker, onMessage, onClose) => {
       client.end();
       onClose();
     };
-    onMessage({ publish, subscribe, end });
+    onConnect({ publish, subscribe, end });
     log('ready');
   });
 };
