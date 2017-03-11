@@ -1,10 +1,14 @@
-const log = require('debug')(require('path').parse(__filename).name);
-
-module.exports = ({ publish, subscribe, end }) => {
-  subscribe('/foo', msg => {
-    log('incoming message');
-    publish('/bar', { hello: 'world' });
-    log('outgoing message...');
+module.exports = async ({ publish, subscribe, end }) => {
+  const unsub = await subscribe('/foo', async msg => {
+    await publish('/bar', { hello: 'world' });
   });
-  log('initalized');
+
+  setTimeout(
+    async () => {
+      console.log('Boooring');
+      await unsub();
+      end();
+    },
+    3000
+  );
 };

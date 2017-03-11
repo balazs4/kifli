@@ -27,18 +27,31 @@ module.exports = (broker, onConnect, onClose) => {
   });
   client.on('connect', () => {
     log(`connected to ${broker}...`);
-    const publish = (topic, msg) => {
-      client.publish(topic, stringify(msg));
-    };
-    const subscribe = (topic, callback) => {
+    const publish = (topic, msg) => new Promise((resolve, reject) => {
+      log('publishing');
+      client.publish(topic, stringify(msg), {}, () => {
+        resolve();
+      });
+    });
+    const subscribe = (topic, callback) => new Promise((resolve, reject) => {
       client.on('message', (tpc, msg) => {
         if (tpc === topic) callback(parse(msg.toString()));
       });
-      client.subscribe(topic);
-    };
+      client.subscribe(topic, () => {
+        resolve(
+          () => new Promise((res, rej) => {
+            client.unsubscribe(topic, () => {
+              res();
+            });
+          })
+        );
+      });
+    });
     const end = () => {
-      client.end();
-      onClose();
+      client.removeAllListeners();
+      client.end(() => {
+        onClose();
+      });
     };
     onConnect({ publish, subscribe, end });
     log('ready');
