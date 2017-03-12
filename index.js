@@ -12,7 +12,7 @@ const parse = input => {
 
 const stringify = msg => typeof msg === typeof {} ? JSON.stringify(msg) : msg;
 
-module.exports = (broker, topic, config = {}, handler, onClose) => {
+module.exports = (broker, topic, config, handler, onClose) => {
   const client = connect(broker, config);
   client.on('offline', () => {
     log(`disconnected from ${broker}`);
