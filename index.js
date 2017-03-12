@@ -12,8 +12,8 @@ const parse = input => {
 
 const stringify = msg => typeof msg === typeof {} ? JSON.stringify(msg) : msg;
 
-module.exports = (broker, onConnect, onClose) => {
-  const client = connect(broker);
+module.exports = (broker, topic, config, handler, onClose) => {
+  const client = connect(broker, {});
   client.on('offline', () => {
     log(`disconnected from ${broker}`);
     client.removeAllListeners('message');
@@ -25,35 +25,17 @@ module.exports = (broker, onConnect, onClose) => {
     log(`${broker} is offline?`);
     client.removeAllListeners('message');
   });
-  client.on('connect', () => {
+  client.on('connect', async () => {
     log(`connected to ${broker}...`);
     const publish = (topic, msg) => new Promise((resolve, reject) => {
-      log('publishing');
       client.publish(topic, stringify(msg), {}, () => {
         resolve();
       });
     });
-    const subscribe = (topic, callback) => new Promise((resolve, reject) => {
+    client.subscribe(topic, () => {
       client.on('message', (tpc, msg) => {
-        if (tpc === topic) callback(parse(msg.toString()));
-      });
-      client.subscribe(topic, () => {
-        resolve(
-          () => new Promise((res, rej) => {
-            client.unsubscribe(topic, () => {
-              res();
-            });
-          })
-        );
+        if (tpc === topic) handler(topic, parse(msg.toString()), publish);
       });
     });
-    const end = () => {
-      client.removeAllListeners();
-      client.end(() => {
-        onClose();
-      });
-    };
-    onConnect({ publish, subscribe, end });
-    log('ready');
   });
 };
