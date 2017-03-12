@@ -27,9 +27,13 @@ module.exports = (broker, topic, config = {}, handler, onClose) => {
   });
   client.on('connect', async () => {
     log(`connected to ${broker}...`);
-    const publish = (topic, msg) => new Promise((resolve, reject) => {
-      client.publish(topic, stringify(msg), {}, () => {
-        log(`[${topic}] outcoming message`);
+    const publish = (tcp, msg) => new Promise((resolve, reject) => {
+      if (tcp === topic) {
+        reject(`You cannot publish to the same topic again [${topic}]`);
+        return;
+      }
+      client.publish(tcp, stringify(msg), {}, () => {
+        log(`[${tcp}] outcoming message`);
         resolve();
       });
     });
