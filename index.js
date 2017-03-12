@@ -12,8 +12,8 @@ const parse = input => {
 
 const stringify = msg => typeof msg === typeof {} ? JSON.stringify(msg) : msg;
 
-module.exports = (broker, topic, config, handler, onClose) => {
-  const client = connect(broker, {});
+module.exports = (broker, topic, config = {}, handler, onClose) => {
+  const client = connect(broker, config);
   client.on('offline', () => {
     log(`disconnected from ${broker}`);
     client.removeAllListeners('message');
@@ -34,8 +34,12 @@ module.exports = (broker, topic, config, handler, onClose) => {
     });
     client.subscribe(topic, () => {
       client.on('message', (tpc, msg) => {
-        if (tpc === topic) handler(topic, parse(msg.toString()), publish);
+        if (tpc === topic) {
+          log(`[${topic}] incoming message`);
+          handler(topic, parse(msg.toString()), publish);
+        }
       });
+      log(`registered ${topic}`);
     });
   });
 };
