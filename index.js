@@ -29,6 +29,7 @@ module.exports = (broker, topic, config = {}, handler, onClose) => {
     log(`connected to ${broker}...`);
     const publish = (topic, msg) => new Promise((resolve, reject) => {
       client.publish(topic, stringify(msg), {}, () => {
+        log(`[${topic}] outcoming message`);
         resolve();
       });
     });
@@ -39,7 +40,7 @@ module.exports = (broker, topic, config = {}, handler, onClose) => {
           handler(topic, parse(msg.toString()), publish);
         }
       });
-      log(`registered ${topic}`);
+      log(`registered to [${topic}]`);
     });
   });
 };
