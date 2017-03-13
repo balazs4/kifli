@@ -22,18 +22,18 @@ module.exports = (broker, topic, config, handler, onClose) => {
     error(err);
   });
   client.on('close', () => {
-    log(`${broker} is offline?`);
+    log(`${broker} is offline?!`);
     client.removeAllListeners('message');
   });
   client.on('connect', async () => {
     log(`connected to ${broker}...`);
     const publish = (tcp, msg) => new Promise((resolve, reject) => {
       if (tcp === topic) {
-        reject(`You cannot publish to the same topic again [${topic}]`);
+        reject(`You cannot publish to the same topic [${topic}] again`);
         return;
       }
       client.publish(tcp, stringify(msg), {}, () => {
-        log(`[${tcp}] outcoming message`);
+        log(`[${tcp}] outgoing message`);
         resolve();
       });
     });
