@@ -25,7 +25,7 @@ module.exports = (broker, topic, config, handler, onClose) => {
     log(`${broker} is offline?!`);
     client.removeAllListeners('message');
   });
-  client.on('connect', async () => {
+  client.on('connect', () => {
     log(`connected to ${broker}...`);
     const publish = (tcp, msg) => new Promise((resolve, reject) => {
       if (tcp === topic) {

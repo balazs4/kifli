@@ -15,6 +15,7 @@
     "mqtt": "^2.4.0"
   },
   "devDependencies": {
-    "ava": "^0.18.2"
+    "ava": "^0.18.2",
+    "mock-require": "^2.0.1"
   }
 }
