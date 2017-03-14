@@ -6,8 +6,8 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "test": "ava --timeout 3000",
-    "test:srv": "mosca -v"
+    "test": "ava",
+    "cov": "nyc ava"
   },
   "dependencies": {
     "args": "^2.3.0",
@@ -16,6 +16,7 @@
   },
   "devDependencies": {
     "ava": "^0.18.2",
-    "mock-require": "^2.0.1"
+    "mock-require": "^2.0.1",
+    "nyc": "^10.1.2"
   }
 }
