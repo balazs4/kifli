@@ -7,29 +7,47 @@ module.exports = async (broker, options) => {
   const client = await new Promise((resolve, reject) => {
     const mqttclient = connect(broker, options);
     mqttclient.on('connect', () => {
-      log(`connected to ${broker}...`);
+      log(`[ONLINE] ${broker}`);
       resolve(mqttclient);
     });
     mqttclient.on('error', () => {
       reject();
     });
+    mqttclient.on('offline', () => {
+      log(`[CLOSED] ${broker}`);
+    });
+    mqttclient.on('close', () => {
+      log(`[OFFLINE] ${broker}`);
+    });
   });
+
   const publish = (topic, message, config = {}) => new Promise(resolve => {
+    const log = require('debug')('mano:out');
     client.publish(topic, stringify(message), config, () => {
-      log(`[${topic}] outgoing message`);
+      log(`==> ${topic} message`);
       resolve();
     });
   });
   const subscribe = topic => new Promise(resolve => {
+    const log = require('debug')('mano:in');
     client.subscribe(topic, () => {
-      log(`subscription on ${topic}`);
       const sub$ = fromEvents(client, 'message', (tpc, msg) => ({
         topic: tpc,
         message: parse(msg)
-      })).filter(x => x.topic === topic);
+      }))
+        .filter(x => x.topic === topic)
+        .map(x => {
+          log(`<== ${topic} message`);
+          return x;
+        });
       resolve(sub$);
     });
   });
+  const end = () => new Promise(resolve => {
+    client.end(true, () => {
+      resolve();
+    });
+  });
   const { clientId } = options;
-  return { publish, subscribe, clientId };
+  return { publish, subscribe, clientId, end };
 };

@@ -5,9 +5,8 @@ const { name, main } = require('../package.json');
 
 const start = async (broker, topic, config, listener) => {
   const client = await mano(broker, config);
-  const sub$ = await client.subscribe(topic);
-  sub$.onValue(listener(client));
-  sub$.onEnd(process.exit);
+  const topic$ = await client.subscribe(topic);
+  topic$.onValue(listener(client));
 };
 
 args
