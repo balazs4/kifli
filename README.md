@@ -1,8 +1,47 @@
 # mano
 
+> nano library to handle messages sent throught MQTT protocol. It wraps the [mqtt.js](https://github.com/mqttjs/MQTT.js) module
+
+## Motivation
+
+I wanted to create a very lightweight message handler on the top of MQTT.
+The main goal of this module is to use the power of the MQTT pub/sub model to create sort of **chainable** nanoservices without too much boilerplate.
+
+Highly inspired by [zeit/micro](https://github.com/zeit/micro) and [developit](https://github.com/developit).
+
+
+## Usage
+
++ ``yarn add mano``
++ add the following script to your ``package.json``
+
+````json
+{
+  "scripts": {
+    "start": "mano handler.js --broker http://localhost:1883 --topic '/sum' "
+  }
+}
+````
+
++ create a ``handler.js`` file
+
+````javascript
+// handler.js
+
+module.exports = ({ publish }) => async ({ topic, payload }) => {
+  await publish('/sum/result', {result: payload.a + payload.b});
+};
+
+// the handler is automatically subscribed to the /sum topic
+// assume that this topic always recevies two numbers (a and b) which shall be sumed
+// the handler does its job and publish the result to a /sum/result topic
+// imagine you have a handler which is listening to the /sum/result topic...
+
+````
+
+
 ## TODO
 
-+ [ ] config/options support
-+ [ ] docu
-+ [ ] improve ``.on('message', cb)``
-+ [ ] test
++ [ ] mqtt config object
++ [ ] API description
++ [ ] more example
