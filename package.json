@@ -1,10 +1,10 @@
 {
-  "name": "mano",
+  "name": "kifli",
   "version": "1.0.0",
-  "description": "nanoservice for mqtt protocol (nano+mqtt=mano)",
+  "description": "nanoservice for mqtt protocol (nano+mqtt=kifli)",
   "main": "lib/index.js",
   "bin": {
-    "mano": "./bin/mano.js"
+    "kifli": "./bin/kifli.js"
   },
   "license": "MIT",
   "scripts": {
@@ -34,11 +34,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/balazs4/mano.git"
+    "url": "git+https://github.com/balazs4/kifli.git"
   },
   "author": "balazs4",
   "bugs": {
-    "url": "https://github.com/balazs4/mano/issues"
+    "url": "https://github.com/balazs4/kifli/issues"
   },
-  "homepage": "https://github.com/balazs4/mano#readme"
+  "homepage": "https://github.com/balazs4/kifli#readme"
 }

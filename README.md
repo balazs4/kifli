@@ -1,4 +1,4 @@
-# mano
+# kifli
 
 > nano library to handle messages sent throught MQTT protocol. It wraps the [mqtt.js](https://github.com/mqttjs/MQTT.js) module
 
@@ -12,13 +12,13 @@ Highly inspired by [zeit/micro](https://github.com/zeit/micro) and [developit](h
 
 ## Usage
 
-+ ``yarn add mano``
++ ``yarn add kifli``
 + add the following script to your ``package.json``
 
 ````json
 {
   "scripts": {
-    "start": "mano handler.js --broker http://localhost:1883 --topic '/sum' "
+    "start": "kifli handler.js --broker http://localhost:1883 --topic '/sum' "
   }
 }
 ````

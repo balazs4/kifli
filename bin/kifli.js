@@ -4,7 +4,7 @@ const args = require('args');
 const { name, main } = require('../package.json');
 
 const start = async (broker, topic, config, listener) => {
-  const client = await mano(broker, config);
+  const client = await kifli(broker, config);
   const topic$ = await client.subscribe(topic);
   topic$.onValue(listener(client));
 };
@@ -15,7 +15,7 @@ args
 
 const params = args.parse(process.argv);
 const file = args.sub[0];
-const mano = require(join('..', main));
+const kifli = require(join('..', main));
 
 start(
   params['broker'],
