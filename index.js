@@ -28,12 +28,13 @@ module.exports = async (broker, options) => {
       resolve();
     });
   });
+
   const subscribe = topic => new Promise(resolve => {
     const log = require('debug')('mano:in');
     client.subscribe(topic, () => {
       const sub$ = fromEvents(client, 'message', (tpc, msg) => ({
         topic: tpc,
-        message: parse(msg)
+        payload: parse(msg)
       }))
         .filter(x => x.topic === topic)
         .map(x => {
@@ -43,11 +44,14 @@ module.exports = async (broker, options) => {
       resolve(sub$);
     });
   });
+
   const end = () => new Promise(resolve => {
     client.end(true, () => {
       resolve();
     });
   });
+
   const { clientId } = options;
+  
   return { publish, subscribe, clientId, end };
 };
