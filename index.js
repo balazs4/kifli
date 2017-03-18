@@ -21,17 +21,18 @@ module.exports = async (broker, options) => {
     });
   });
 
-  const publish = (topic, message, config = {}) => new Promise(resolve => {
-    const log = require('debug')('mano:out');
-    client.publish(topic, stringify(message), config, () => {
-      log(`==> ${topic} message`);
-      resolve();
+  const publish = (topic, message, config = { qos: 0, retain: false }) =>
+    new Promise(resolve => {
+      const log = require('debug')('mano:out');
+      client.publish(topic, stringify(message), config, () => {
+        log(`==> ${topic} message`);
+        resolve();
+      });
     });
-  });
 
-  const subscribe = topic => new Promise(resolve => {
+  const subscribe = (topic, config = { qos: 0 }) => new Promise(resolve => {
     const log = require('debug')('mano:in');
-    client.subscribe(topic, () => {
+    client.subscribe(topic, config, () => {
       const sub$ = fromEvents(client, 'message', (tpc, msg) => ({
         topic: tpc,
         payload: parse(msg)
@@ -52,6 +53,6 @@ module.exports = async (broker, options) => {
   });
 
   const { clientId } = options;
-  
+
   return { publish, subscribe, clientId, end };
 };
