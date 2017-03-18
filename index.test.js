@@ -2,25 +2,25 @@ const { test } = require('ava');
 const mock = require('mock-require');
 
 mock('mqtt', {
-  connect: (url, config) => ({
-    on: (event, handler) => {
+  connect: (url, config) => {
+    const on = (event, handler) => {
       if (event === 'connect') handler();
       if (event === 'message') handler('/test', 'foobar');
-    },
-    off: (event, handler) => {},
-    subscribe: (topic, config, handler) => {
+    };
+    const off = (event, handler) => {};
+    const subscribe = (topic, config, handler) => {
       handler();
-    },
-    publish: (topic, payload, config, handler) => {
+    };
+    const publish = (topic, payload, config, handler) => {
       handler();
-    }
-  })
+    };
+    return { on, off, subscribe, publish };
+  }
 });
-
-const mano = require('.');
+const sut = require('.');
 
 test('API', async t => {
-  const api = await mano('mqtt://fake.url', { clientId: 'test' });
+  const api = await sut('mqtt://fake.url', { clientId: 'test' });
   t.is(typeof api.publish, typeof Function);
   t.is(typeof api.subscribe, typeof Function);
   t.is(typeof api.end, typeof Function);
@@ -28,23 +28,15 @@ test('API', async t => {
 });
 
 test('Happy path #subscribe', async t => {
-  const client = await mano('mqtt://fake.url', { clientId: 'test' });
+  const client = await sut('mqtt://fake.url', { clientId: 'test' });
   const sub$ = await client.subscribe('/test');
-  sub$.onValue(x => {
-    t.deepEqual(x, { topic: '/test', payload: 'foobar' });
+  const x = await new Promise(resolve => {
+    sub$.onValue(resolve);
   });
+  t.deepEqual(x, { topic: '/test', payload: 'foobar' });
 });
 
-// test.cb('MQTT', t => {
-//   mano(
-//     'mqtt://fake/url',
-//     '/testtopic',
-//     {},
-//     (tpc, msg, pub) => {
-//       t.is(tpc, '/testtopic');
-//       t.is(msg, 'hello');
-//       t.end();
-//     },
-//     () => {}
-//   );
-// });
+test('Happy path #publish', async t => {
+  const client = await sut('mqtt://fake.url', { clientId: 'test' });
+  t.notThrows(client.publish('/test', 'foobar'));
+});
