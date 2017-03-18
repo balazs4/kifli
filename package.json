@@ -2,7 +2,7 @@
   "name": "mano",
   "version": "1.0.0",
   "description": "nanoservice for mqtt protocol (nano+mqtt=mano)",
-  "main": "index.js",
+  "main": "lib/index.js",
   "bin": {
     "mano": "./bin/mano.js"
   },
