@@ -12,6 +12,7 @@
   "dependencies": {
     "args": "^2.3.0",
     "debug": "^2.6.1",
+    "kefir": "^3.7.1",
     "mqtt": "^2.4.0"
   },
   "devDependencies": {

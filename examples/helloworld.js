@@ -1,3 +1,3 @@
-module.exports = async (topic, msg, publish) => {
-  await publish('/bar', Object.assign({}, msg, { from: topic }));
+module.exports = ({ publish }) => async value => {
+  await publish('/bar', Object.assign({}, value, { stamp: new Date() }));
 };
