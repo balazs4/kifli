@@ -4,8 +4,8 @@ const mock = require('mock-require');
 mock('mqtt', {
   connect: (url, config) => {
     const on = (event, handler) => {
-      if (event === 'connect') handler();
       if (event === 'message') handler('/test', 'foobar');
+      else handler();
     };
     const off = (event, handler) => {};
     const subscribe = (topic, config, handler) => {
@@ -14,7 +14,10 @@ mock('mqtt', {
     const publish = (topic, payload, config, handler) => {
       handler();
     };
-    return { on, off, subscribe, publish };
+    const end = (force, handler) => {
+      handler();
+    };
+    return { on, off, subscribe, publish, end };
   }
 });
 const sut = require('.');
@@ -39,4 +42,9 @@ test('Happy path #subscribe', async t => {
 test('Happy path #publish', async t => {
   const client = await sut('mqtt://fake.url', { clientId: 'test' });
   t.notThrows(client.publish('/test', 'foobar'));
+});
+
+test('Happy path #end', async t => {
+  const client = await sut('mqtt://fake.url', { clientId: 'test' });
+  t.notThrows(client.end());
 });

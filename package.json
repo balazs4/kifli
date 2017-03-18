@@ -6,8 +6,9 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "test": "ava",
-    "cov": "nyc ava"
+    "test": "ava -v -T 3000",
+    "cov": "nyc ava",
+    "report": "nyc --reporter=lcov ava"
   },
   "dependencies": {
     "args": "^2.3.0",
