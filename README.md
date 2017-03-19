@@ -1,5 +1,7 @@
 # kifli
 
+[![Build Status](https://travis-ci.org/balazs4/kifli.svg?branch=master)](https://travis-ci.org/balazs4/kifli)
+
 > nano library to handle messages sent throught MQTT protocol. It wraps the [mqtt.js](https://github.com/mqttjs/MQTT.js) module
 
 ## Motivation
