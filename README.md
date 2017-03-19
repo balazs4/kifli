@@ -1,6 +1,10 @@
 # kifli
 
 [![Build Status](https://travis-ci.org/balazs4/kifli.svg?branch=master)](https://travis-ci.org/balazs4/kifli)
+[![Coverage Status](https://coveralls.io/repos/github/balazs4/kifli/badge.svg?branch=master)](https://coveralls.io/github/balazs4/kifli?branch=master)
+[![npm version](https://badge.fury.io/js/kifli.svg)](https://badge.fury.io/js/kifli)
+[![dependencies Status](https://david-dm.org/balazs4/kifli/status.svg)](https://david-dm.org/balazs4/kifli)
+[![devDependencies Status](https://david-dm.org/balazs4/kifli/dev-status.svg)](https://david-dm.org/balazs4/kifli?type=dev)
 
 > nano library to handle messages sent throught MQTT protocol. It wraps the [mqtt.js](https://github.com/mqttjs/MQTT.js) module
 
