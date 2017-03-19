@@ -24,7 +24,7 @@ Highly inspired by [zeit/micro](https://github.com/zeit/micro) and [developit](h
 ````json
 {
   "scripts": {
-    "start": "kifli handler.js --broker http://localhost:1883 --topic '/sum' "
+    "start": "kifli handler.js --broker mqtt://localhost:1883 --topic '/sum' "
   }
 }
 ````
