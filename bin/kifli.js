@@ -14,21 +14,16 @@ const kifli = require(join('..', main));
 const start = async (broker, topic, config, listener) => {
   const client = await kifli(broker, config);
   const topic$ = await client.subscribe(topic);
-  topic$.onValue(listener(client));
+  topic$
+    .skipDuplicates((a, b) => JSON.stringify(a) === JSON.stringify(b))
+    .onValue(listener(client));
 };
 
-const createOptions = (o = {}) =>
-  Object.assign(
-    {},
-    {
-      clientId: [`${name}`, `${parse(file).name}`, `${process.pid}`].join('/')
-    },
-    o
-  );
+const clientId = [`${name}`, `${parse(file).name}`, `${process.pid}`].join('/');
 
 start(
   params['broker'],
   params['topic'],
-  createOptions(),
+  { clientId },
   require(resolve(process.cwd(), file))
 );
