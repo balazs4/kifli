@@ -1,6 +1,6 @@
 {
   "name": "kifli",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "nanoservice for mqtt protocol (nano+mqtt=kifli)",
   "main": "lib/index.js",
   "bin": {
