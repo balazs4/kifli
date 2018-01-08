@@ -18,7 +18,7 @@ Highly inspired by [zeit/micro](https://github.com/zeit/micro) and [developit](h
 
 ## Usage
 
-+ ``yarn add kifli``
++ ``npm install --save kifli``
 + add the following script to your ``package.json``
 
 ````json
@@ -44,10 +44,3 @@ module.exports = ({ publish }) => async ({ topic, payload }) => {
 // imagine you have a handler which is listening to the /sum/result topic...
 
 ````
-
-
-## TODO
-
-+ [ ] mqtt config object
-+ [ ] API description
-+ [ ] more example
