@@ -5,6 +5,7 @@
 [![npm version](https://badge.fury.io/js/kifli.svg)](https://badge.fury.io/js/kifli)
 [![dependencies Status](https://david-dm.org/balazs4/kifli/status.svg)](https://david-dm.org/balazs4/kifli)
 [![devDependencies Status](https://david-dm.org/balazs4/kifli/dev-status.svg)](https://david-dm.org/balazs4/kifli?type=dev)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fbalazs4%2Fkifli.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fbalazs4%2Fkifli?ref=badge_shield)
 
 > nano library to handle messages sent throught MQTT protocol. It wraps the [mqtt.js](https://github.com/mqttjs/MQTT.js) module
 
@@ -44,3 +45,7 @@ module.exports = ({ publish }) => async ({ topic, payload }) => {
 // imagine you have a handler which is listening to the /sum/result topic...
 
 ````
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fbalazs4%2Fkifli.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fbalazs4%2Fkifli?ref=badge_large)
